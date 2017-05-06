@@ -13,9 +13,11 @@ import android.widget.ImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-    private int PICK_IMAGE_REQUEST = 1;
+    private final int PICK_IMAGE_REQUEST = 1;
+
+    private final String DELIVERYMAN_REGISTER_URL = "http://69.46.5.165:8081/dlv1601/public/api/deliveryman/register";
 
     Bitmap userImage = null;
 
@@ -26,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void registerNewDeliveryMan(){
+    public void registerNewDeliveryMan(View v){
 
         //leer datos
         //String JSONPayload = EntityFormatter.getInstance().deliveryToJSON();
-        //new HTTPPostAsyncTask(JSONPayload).execute(url);
+        //new HTTPPostAsyncTask(JSONPayload).execute(DELIVERYMAN_REGISTER_URL);
     }
 
     public void pickAnImage(View v){
@@ -69,6 +71,6 @@ public class MainActivity extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Image.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
         byte[] imageBytes = baos.toByteArray();
-        Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 }
