@@ -22,6 +22,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -52,7 +53,7 @@ public class LoginRepartidor extends AppCompatActivity {
         CrearC = (Button) findViewById(R.id.buton_crear_cuenta);
         estado = (TextView) findViewById(R.id.texto_olvidaste_contrasena); //TODO cambiar esta variable
         estadoCorreo = (TextView) findViewById(R.id.textEmailF);
-        deviceID = Secure.ANDROID_ID;
+        deviceID = Secure.getString(this.getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
         if (isConnected()) {
             //No se debe modificar esta variable
             estado.setBackgroundColor(0xFF00CC00);
@@ -97,7 +98,7 @@ public class LoginRepartidor extends AppCompatActivity {
     }
     public void btnIniciarSesion(View v) {
         HttpAsyncTask IniciarSesion = new HttpAsyncTask();//.execute("http://petstore.swagger.io/v2/pet/findByStatus?status=sold");
-        IniciarSesion.execute("http://69.46.5.165:8081/dlv1601/public/docs#!/user/login");
+        IniciarSesion.execute("http://69.46.5.165:8081/dlv1601/public/api/user/login");
     }
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
         @Override
@@ -109,7 +110,16 @@ public class LoginRepartidor extends AppCompatActivity {
         // onPostExecute despliega el resultado.
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
+            System.out.println(result);
+            try {
+                JSONObject answer = new JSONObject(result);
+                String errorL = answer.getString("message");
+                Toast.makeText(getBaseContext(), errorL, Toast.LENGTH_LONG).show();
+                //Error
+
+            } catch (JSONException e) {
+                Toast.makeText(getBaseContext(), "Acceso exitoso!", Toast.LENGTH_LONG).show();
+            }
 
             //Toast.makeText(getBaseContext(), result , Toast.LENGTH_LONG).show();
             finish();
@@ -136,8 +146,8 @@ public class LoginRepartidor extends AppCompatActivity {
                     "  \"password\": " + aux2 + ",\n" +
                     "    \"rememberMe\": true,\n" +
                     "  \"device\": {\n" +
-                    "      \"code\": " + deviceID + ",\n" +
-                    "      \"token\": \"" + "AIzaSyD9vf5e1CVJjajc1_a_xej1XMlhwxX_jyA" + "\"\n" +
+                    "      \"code\": "+ "1"+",\n" +
+                    "      \"token\": \""+ deviceID +"\"\n" +
                     "    }\n" +
                     "}";
 
