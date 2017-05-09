@@ -73,8 +73,8 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
         String latitude = String.valueOf(currentLocation.getLatitude());
         String longitude = String.valueOf(currentLocation.getLongitude());
 
-        //RegistrationData.getInstance().setLatitude(latitude);
-        //RegistrationData.getInstance().setLongitude(longitude);
+        RegistrationData.getInstance().setLatitude(latitude);
+        RegistrationData.getInstance().setLongitude(longitude);
 
         this.postDeliveryMan();
     }
@@ -83,11 +83,11 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
 
         RegistrationData registrationData = RegistrationData.getInstance();
 
-        //String entity = EntityFormatter.getFormatter().deliveryToJSON(registrationData);
+        String entity = EntityFormatter.getFormatter().deliveryToJSON(registrationData);
 
-        //HttpPostAsyncTask httpPostAsyncTask = new HttpPostAsyncTask(entity);
-        //String url = "";
-        //httpPostAsyncTask.POST(url);
+        HttpPostAsyncTask httpPostAsyncTask = new HttpPostAsyncTask(entity);
+        String url = "http://69.46.5.165:8081/dlv1601/public/api/deliveryman/register";
+        httpPostAsyncTask.POST(url);
     }
 
     @Override

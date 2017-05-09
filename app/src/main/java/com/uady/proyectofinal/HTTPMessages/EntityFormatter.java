@@ -1,5 +1,7 @@
 package com.uady.proyectofinal.HTTPMessages;
 
+import com.uady.proyectofinal.RegistrationData;
+
 /**
  * Created by José on 03/05/2017.
  */
@@ -17,34 +19,23 @@ public class EntityFormatter {
         return entityFormatter;
     }
 
-    public String deliveryToJSON(
-            String name,
-            String email,
-            String password,
-            String lastName1,
-            String lastName2,
-            String birthday,
-            String phone,
-            String lat,
-            String lon,
-            String base64
-    ){
+    public String deliveryToJSON(RegistrationData data){
 
         String entityFormat =
                 "{\n" +
-                        "  \"name\": \""+name+"\",\n" +
-                        "  \"email\": \""+email+"\",\n" +
-                        "  \"password\": \""+password+"\",\n" +
-                        "  \"lastName1\": \""+lastName1+"\",\n" +
-                        "  \"lastName2\": \""+lastName2+"\",\n" +
-                        "  \"birthday\": \""+birthday+"\",\n" +
-                        "  \"phone\": \""+phone+"\",\n" +
+                        "  \"name\": \""+data.getName()+"\",\n" +
+                        "  \"email\": \""+data.getEmail()+"\",\n" +
+                        "  \"password\": \""+data.getPassword()+"\",\n" +
+                        "  \"lastName1\": \""+data.getLastName()+"\",\n" +
+                        "  \"lastName2\": \"\",\n" +
+                        "  \"birthday\": \""+data.getBirthday()+"\",\n" +
+                        "  \"phone\": \""+data.getPhone()+"\",\n" +
                         "  \"location\": {\n" +
-                        "    \"lat\": "+lat+",\n" +
-                        "    \"lon\": "+lon+"\n" +
+                        "    \"lat\": "+data.getLatitude()+",\n" +
+                        "    \"lon\": "+data.getLongitude()+"\n" +
                         "  },\n" +
                         "  \"photo\": {\n" +
-                        "     \"base64\":\""+base64+"\",\n" +
+                        "     \"base64\":\""+data.getPhoto()+"\",\n" +
                         "    \"extension\": \"jpg\"\n" +
                         "  }\n" +
                         "}";
