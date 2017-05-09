@@ -1,6 +1,7 @@
 package com.uady.proyectofinal;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -49,6 +50,8 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
         }
 
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        verifyLocationPermissions(this);
 
         MyLocationListener myLocationListener = new MyLocationListener();
 
@@ -154,6 +157,20 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
                         .snippet(""));
             }
             currentMarker.setPosition(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
+        }
+    }
+
+    public void verifyLocationPermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1
+            );
         }
     }
 }
