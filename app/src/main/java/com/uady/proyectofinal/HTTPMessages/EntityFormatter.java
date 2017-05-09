@@ -6,13 +6,13 @@ package com.uady.proyectofinal.HTTPMessages;
 
 public class EntityFormatter {
 
-    private EntityFormatter entityFormatter = new EntityFormatter();
+    private static final EntityFormatter entityFormatter = new EntityFormatter();
 
     private EntityFormatter(){
         ;
     }
 
-    public EntityFormatter getEntityFormatter(){
+    public static EntityFormatter getFormatter(){
 
         return entityFormatter;
     }
