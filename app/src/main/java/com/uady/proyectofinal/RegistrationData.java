@@ -14,6 +14,7 @@ public class RegistrationData {
     private String lastName;
     private String email;
     private String phone;
+    private String password;
     private String photo;
     private String birthday;
     private String latitude;
@@ -85,5 +86,14 @@ public class RegistrationData {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

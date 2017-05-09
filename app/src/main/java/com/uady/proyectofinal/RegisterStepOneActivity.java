@@ -10,6 +10,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -37,10 +38,14 @@ public class RegisterStepOneActivity extends AppCompatActivity {
             RegistrationData.getInstance().setLastName(((EditText)findViewById(R.id.txt_LastName)).getText().toString());
             RegistrationData.getInstance().setEmail(((EditText)findViewById(R.id.txt_Email)).getText().toString());
             RegistrationData.getInstance().setPhone(((EditText)findViewById(R.id.txt_Phone)).getText().toString());
+            RegistrationData.getInstance().setPassword(((EditText)findViewById(R.id.txt_Password)).getText().toString());
             RegistrationData.getInstance().setPhoto(imageToBase64String(this.userImage));
 
             Intent intent = new Intent(this, RegisterStepTwoActivity.class);
             startActivity(intent);
+        }else{
+
+            Toast.makeText(this, "Faltan campos por llenar ", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -50,6 +55,7 @@ public class RegisterStepOneActivity extends AppCompatActivity {
                 !((EditText)findViewById(R.id.txt_Email)).getText().toString().equals("") &&
                 !((EditText)findViewById(R.id.txt_LastName)).getText().toString().equals("") &&
                 !((EditText)findViewById(R.id.txt_Phone)).getText().toString().equals("") &&
+                !((EditText)findViewById(R.id.txt_Password)).getText().toString().equals("") &&
                 this.userImage != null);
 
     }

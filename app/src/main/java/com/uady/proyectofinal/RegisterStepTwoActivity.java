@@ -1,5 +1,6 @@
 package com.uady.proyectofinal;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,10 +27,8 @@ public class RegisterStepTwoActivity extends AppCompatActivity {
 
         RegistrationData.getInstance().setBirthday(stringifyCalendar(calendar));
 
-        /*
         Intent intent = new Intent(this, RegisterStepThreeActivity.class);
         startActivity(intent);
-        */
 
     }
 
