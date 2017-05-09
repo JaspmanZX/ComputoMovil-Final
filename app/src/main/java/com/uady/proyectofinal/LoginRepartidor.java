@@ -26,24 +26,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LoginRepartidor extends AppCompatActivity {
     public static EditText Correo;
+    public Validaciones valid = new Validaciones();
     public TextView estadoCorreo;
     public static EditText Contrasena;
-    public static  String deviceID;
+    public static String deviceID;
     Button IniciarS;
     Button CrearC;
 
     TextView estado;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IniciarS.setEnabled(false);
         setContentView(R.layout.activity_login_repartidor);
         Correo = (EditText) findViewById(R.id.input_usuario);
         Contrasena = (EditText) findViewById(R.id.input_contrasena);
@@ -52,22 +51,19 @@ public class LoginRepartidor extends AppCompatActivity {
         estado = (TextView) findViewById(R.id.texto_olvidaste_contrasena);
         estadoCorreo = (TextView) findViewById(R.id.textEmailF);
         deviceID = Secure.ANDROID_ID;
-        if (isConnected()){
+        if (isConnected()) {
             estado.setBackgroundColor(0xFF00CC00);
             estado.setText("Conectado");
-        }
-        else
-        {
+        } else {
             estado.setText("NO conectado");
         }
 
     }
 
-    public void btnIniciarSesion(View v){
+    public void btnIniciarSesion(View v) {
         HttpAsyncTask IniciarSesion = new HttpAsyncTask();//.execute("http://petstore.swagger.io/v2/pet/findByStatus?status=sold");
         IniciarSesion.execute("http://69.46.5.165:8081/dlv1601/public/docs#!/user/login");
     }
-
 
 
     public static String POST(String url) {
@@ -81,15 +77,15 @@ public class LoginRepartidor extends AppCompatActivity {
             String aux1 = Correo.getText().toString();
             String aux2 = Contrasena.getText().toString();
             String json = "{\n" +
-                    "  \"grant_type\": " + "password" +",\n" +
-                    "  \"client_id\": " + "f3d259ddd3ed8ff3843839b" +",\n" +
-                    "  \"client_secret\": " + "4c7f6f8fa93d59c45502c0ae8c4a95b" +",\n" +
-                    "  \"username\": " + aux1 +",\n" +
-                    "  \"password\": " + aux2 +",\n" +
+                    "  \"grant_type\": " + "password" + ",\n" +
+                    "  \"client_id\": " + "f3d259ddd3ed8ff3843839b" + ",\n" +
+                    "  \"client_secret\": " + "4c7f6f8fa93d59c45502c0ae8c4a95b" + ",\n" +
+                    "  \"username\": " + aux1 + ",\n" +
+                    "  \"password\": " + aux2 + ",\n" +
                     "    \"rememberMe\": true,\n" +
                     "  \"device\": {\n" +
-                    "      \"code\": "+ deviceID +",\n" +
-                    "      \"token\": \""+ "AIzaSyD9vf5e1CVJjajc1_a_xej1XMlhwxX_jyA" +"\"\n" +
+                    "      \"code\": " + deviceID + ",\n" +
+                    "      \"token\": \"" + "AIzaSyD9vf5e1CVJjajc1_a_xej1XMlhwxX_jyA" + "\"\n" +
                     "    }\n" +
                     "}";
 
@@ -143,6 +139,7 @@ public class LoginRepartidor extends AppCompatActivity {
         inputStream.close();
         return result;
     }
+
     public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -171,26 +168,22 @@ public class LoginRepartidor extends AppCompatActivity {
         }
     }
 
-    private void
-    validateEmailFormat(String email ) {
-        Pattern p;
-        Matcher m;
-        String EMAIL_PATTERN =
-                "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        p = Pattern.compile(EMAIL_PATTERN);
-        m = p.matcher(email);
-        if(m.matches()){
+    private void checkLogin(String email, String pass) {
+
+        if (!valid.isEmailFormated(email)) {
+            IniciarS.setEnabled(false);
+            estadoCorreo.setBackgroundColor(Color.RED);
+            estadoCorreo.setText("El formato de correo es incorrecto");
+
+        } else {
             //Boton inicio de sesión enabled
             IniciarS.setEnabled(true);
             estadoCorreo.setText("");
-            estadoCorreo.setBackgroundColor(0x00000000 );
-        }else{
-            IniciarS.setEnabled(false);
-            estadoCorreo
-            estado.setBackgroundColor(Color.RED);
-            estado.setText("Conectado");
+            estadoCorreo.setBackgroundColor(0x00000000);
+            if (valid.passCheck(pass))
+                IniciarS.setEnabled(false);
+            else
+                IniciarS.setEnabled(true);
         }
-
     }
 }
