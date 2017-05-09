@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,23 +21,30 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.security.AccessController.getContext;
+import static java.sql.DriverManager.println;
 
 public class LoginRepartidor extends AppCompatActivity {
     public static EditText Correo;
     public Validaciones valid = new Validaciones();
     public TextView estadoCorreo;
     public static EditText Contrasena;
-    public static String deviceID;
+    public static  String deviceID;
     Button IniciarS;
     Button CrearC;
 
     TextView estado;
+
 
 
     @Override
@@ -50,20 +58,25 @@ public class LoginRepartidor extends AppCompatActivity {
         CrearC = (Button) findViewById(R.id.buton_crear_cuenta);
         estado = (TextView) findViewById(R.id.texto_olvidaste_contrasena);
         estadoCorreo = (TextView) findViewById(R.id.textEmailF);
-        deviceID = Secure.ANDROID_ID;
-        if (isConnected()) {
+        deviceID = Secure.getString(this.getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+        System.out.println(deviceID);
+
+        if (isConnected()){
             estado.setBackgroundColor(0xFF00CC00);
             estado.setText("Conectado");
-        } else {
+        }
+        else
+        {
             estado.setText("NO conectado");
         }
 
     }
 
-    public void btnIniciarSesion(View v) {
+    public void btnIniciarSesion(View v){
         HttpAsyncTask IniciarSesion = new HttpAsyncTask();//.execute("http://petstore.swagger.io/v2/pet/findByStatus?status=sold");
-        IniciarSesion.execute("http://69.46.5.165:8081/dlv1601/public/docs#!/user/login");
+        IniciarSesion.execute("http://69.46.5.165:8081/dlv1601/public/api/user/login");
     }
+
 
 
     public static String POST(String url) {
@@ -77,15 +90,15 @@ public class LoginRepartidor extends AppCompatActivity {
             String aux1 = Correo.getText().toString();
             String aux2 = Contrasena.getText().toString();
             String json = "{\n" +
-                    "  \"grant_type\": " + "password" + ",\n" +
-                    "  \"client_id\": " + "f3d259ddd3ed8ff3843839b" + ",\n" +
-                    "  \"client_secret\": " + "4c7f6f8fa93d59c45502c0ae8c4a95b" + ",\n" +
-                    "  \"username\": " + aux1 + ",\n" +
-                    "  \"password\": " + aux2 + ",\n" +
+                    "  \"grant_type\": " + "password" +",\n" +
+                    "  \"client_id\": " + "f3d259ddd3ed8ff3843839b" +",\n" +
+                    "  \"client_secret\": " + "4c7f6f8fa93d59c45502c0ae8c4a95b" +",\n" +
+                    "  \"username\": " + aux1 +",\n" +
+                    "  \"password\": " + aux2 +",\n" +
                     "    \"rememberMe\": true,\n" +
                     "  \"device\": {\n" +
-                    "      \"code\": " + deviceID + ",\n" +
-                    "      \"token\": \"" + "AIzaSyD9vf5e1CVJjajc1_a_xej1XMlhwxX_jyA" + "\"\n" +
+                    "      \"code\": "+ "1"+",\n" +
+                    "      \"token\": \""+ deviceID +"\"\n" +
                     "    }\n" +
                     "}";
 
@@ -139,7 +152,6 @@ public class LoginRepartidor extends AppCompatActivity {
         inputStream.close();
         return result;
     }
-
     public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -160,7 +172,17 @@ public class LoginRepartidor extends AppCompatActivity {
         // onPostExecute despliega el resultado.
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
+            System.out.println(result);
+            try {
+                JSONObject answer = new JSONObject(result);
+                String errorL = answer.getString("message");
+                Toast.makeText(getBaseContext(), errorL, Toast.LENGTH_LONG).show();
+                //Error
+
+            } catch (JSONException e) {
+                Toast.makeText(getBaseContext(), "Acceso exitoso!", Toast.LENGTH_LONG).show();
+            }
 
             //Toast.makeText(getBaseContext(), result , Toast.LENGTH_LONG).show();
             finish();
@@ -179,11 +201,13 @@ public class LoginRepartidor extends AppCompatActivity {
             //Boton inicio de sesión enabled
             IniciarS.setEnabled(true);
             estadoCorreo.setText("");
-            estadoCorreo.setBackgroundColor(0x00000000);
-            if (valid.passCheck(pass))
-                IniciarS.setEnabled(false);
-            else
-                IniciarS.setEnabled(true);
+            estadoCorreo.setBackgroundColor(0x00000000 );
+        }else{
+            IniciarS.setEnabled(false);
+            estadoCorreo
+            estado.setBackgroundColor(Color.RED);
+            estado.setText("Conectado");
         }
+
     }
 }
