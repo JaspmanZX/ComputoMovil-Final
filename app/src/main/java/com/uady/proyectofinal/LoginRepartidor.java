@@ -7,6 +7,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,11 +30,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class LoginRepartidor extends AppCompatActivity {
-    public static EditText Correo;
+    public EditText Correo;
     public Validaciones valid = new Validaciones();
     public TextView estadoCorreo;
-    public static EditText Contrasena;
-    public static String deviceID;
+    public EditText Contrasena;
+    public String deviceID;
     Button IniciarS;
     Button CrearC;
 
@@ -48,25 +50,75 @@ public class LoginRepartidor extends AppCompatActivity {
         Contrasena = (EditText) findViewById(R.id.input_contrasena);
         IniciarS = (Button) findViewById(R.id.boton_iniciar_sesion);
         CrearC = (Button) findViewById(R.id.buton_crear_cuenta);
-        estado = (TextView) findViewById(R.id.texto_olvidaste_contrasena);
+        estado = (TextView) findViewById(R.id.texto_olvidaste_contrasena); //TODO cambiar esta variable
         estadoCorreo = (TextView) findViewById(R.id.textEmailF);
         deviceID = Secure.ANDROID_ID;
         if (isConnected()) {
+            //No se debe modificar esta variable
             estado.setBackgroundColor(0xFF00CC00);
             estado.setText("Conectado");
         } else {
             estado.setText("NO conectado");
         }
+        Correo.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+                String check = Correo.getText().toString();
+                checkEmail(check);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+        Contrasena.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+                String check = Contrasena.getText().toString();
+                checkPassword(check);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+
+
+
 
     }
-
+    public boolean isConnected() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected())
+            return true;
+        else
+            return false;
+    }
     public void btnIniciarSesion(View v) {
         HttpAsyncTask IniciarSesion = new HttpAsyncTask();//.execute("http://petstore.swagger.io/v2/pet/findByStatus?status=sold");
         IniciarSesion.execute("http://69.46.5.165:8081/dlv1601/public/docs#!/user/login");
     }
+    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+
+            return POST(urls[0]);
+        }
+
+        // onPostExecute despliega el resultado.
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
+
+            //Toast.makeText(getBaseContext(), result , Toast.LENGTH_LONG).show();
+            finish();
+
+        }
+    }
 
 
-    public static String POST(String url) {
+    public String POST(String url) {
         InputStream inputStream = null;
         String result = "";
         try {
@@ -140,35 +192,11 @@ public class LoginRepartidor extends AppCompatActivity {
         return result;
     }
 
-    public boolean isConnected() {
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
-    }
 
 
-    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
 
-            return POST(urls[0]);
-        }
 
-        // onPostExecute despliega el resultado.
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
-
-            //Toast.makeText(getBaseContext(), result , Toast.LENGTH_LONG).show();
-            finish();
-
-        }
-    }
-
-    private void checkLogin(String email, String pass) {
+    private void checkEmail(String email) {
 
         if (!valid.isEmailFormated(email)) {
             IniciarS.setEnabled(false);
@@ -180,10 +208,13 @@ public class LoginRepartidor extends AppCompatActivity {
             IniciarS.setEnabled(true);
             estadoCorreo.setText("");
             estadoCorreo.setBackgroundColor(0x00000000);
-            if (valid.passCheck(pass))
-                IniciarS.setEnabled(false);
-            else
-                IniciarS.setEnabled(true);
         }
+    }
+
+    private void checkPassword(String password){
+        if (valid.passCheck(password))
+            IniciarS.setEnabled(false);
+        else
+            IniciarS.setEnabled(true);
     }
 }
