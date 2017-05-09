@@ -5,9 +5,10 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,30 +22,23 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static java.security.AccessController.getContext;
-import static java.sql.DriverManager.println;
 
 public class LoginRepartidor extends AppCompatActivity {
-    public static EditText Correo;
+    public EditText Correo;
     public Validaciones valid = new Validaciones();
     public TextView estadoCorreo;
-    public static EditText Contrasena;
-    public static  String deviceID;
+    public EditText Contrasena;
+    public String deviceID;
     Button IniciarS;
     Button CrearC;
 
     TextView estado;
-
 
 
     @Override
@@ -56,30 +50,75 @@ public class LoginRepartidor extends AppCompatActivity {
         Contrasena = (EditText) findViewById(R.id.input_contrasena);
         IniciarS = (Button) findViewById(R.id.boton_iniciar_sesion);
         CrearC = (Button) findViewById(R.id.buton_crear_cuenta);
-        estado = (TextView) findViewById(R.id.texto_olvidaste_contrasena);
+        estado = (TextView) findViewById(R.id.texto_olvidaste_contrasena); //TODO cambiar esta variable
         estadoCorreo = (TextView) findViewById(R.id.textEmailF);
-        deviceID = Secure.getString(this.getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
-        System.out.println(deviceID);
-
-        if (isConnected()){
+        deviceID = Secure.ANDROID_ID;
+        if (isConnected()) {
+            //No se debe modificar esta variable
             estado.setBackgroundColor(0xFF00CC00);
             estado.setText("Conectado");
-        }
-        else
-        {
+        } else {
             estado.setText("NO conectado");
         }
+        Correo.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+                String check = Correo.getText().toString();
+                checkEmail(check);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+        Contrasena.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+                String check = Contrasena.getText().toString();
+                checkPassword(check);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+
+
+
 
     }
-
-    public void btnIniciarSesion(View v){
+    public boolean isConnected() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected())
+            return true;
+        else
+            return false;
+    }
+    public void btnIniciarSesion(View v) {
         HttpAsyncTask IniciarSesion = new HttpAsyncTask();//.execute("http://petstore.swagger.io/v2/pet/findByStatus?status=sold");
-        IniciarSesion.execute("http://69.46.5.165:8081/dlv1601/public/api/user/login");
+        IniciarSesion.execute("http://69.46.5.165:8081/dlv1601/public/docs#!/user/login");
+    }
+    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+
+            return POST(urls[0]);
+        }
+
+        // onPostExecute despliega el resultado.
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
+
+            //Toast.makeText(getBaseContext(), result , Toast.LENGTH_LONG).show();
+            finish();
+
+        }
     }
 
 
-
-    public static String POST(String url) {
+    public String POST(String url) {
         InputStream inputStream = null;
         String result = "";
         try {
@@ -90,15 +129,15 @@ public class LoginRepartidor extends AppCompatActivity {
             String aux1 = Correo.getText().toString();
             String aux2 = Contrasena.getText().toString();
             String json = "{\n" +
-                    "  \"grant_type\": " + "password" +",\n" +
-                    "  \"client_id\": " + "f3d259ddd3ed8ff3843839b" +",\n" +
-                    "  \"client_secret\": " + "4c7f6f8fa93d59c45502c0ae8c4a95b" +",\n" +
-                    "  \"username\": " + aux1 +",\n" +
-                    "  \"password\": " + aux2 +",\n" +
+                    "  \"grant_type\": " + "password" + ",\n" +
+                    "  \"client_id\": " + "f3d259ddd3ed8ff3843839b" + ",\n" +
+                    "  \"client_secret\": " + "4c7f6f8fa93d59c45502c0ae8c4a95b" + ",\n" +
+                    "  \"username\": " + aux1 + ",\n" +
+                    "  \"password\": " + aux2 + ",\n" +
                     "    \"rememberMe\": true,\n" +
                     "  \"device\": {\n" +
-                    "      \"code\": "+ "1"+",\n" +
-                    "      \"token\": \""+ deviceID +"\"\n" +
+                    "      \"code\": " + deviceID + ",\n" +
+                    "      \"token\": \"" + "AIzaSyD9vf5e1CVJjajc1_a_xej1XMlhwxX_jyA" + "\"\n" +
                     "    }\n" +
                     "}";
 
@@ -152,45 +191,12 @@ public class LoginRepartidor extends AppCompatActivity {
         inputStream.close();
         return result;
     }
-    public boolean isConnected() {
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
-    }
 
 
-    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
 
-            return POST(urls[0]);
-        }
 
-        // onPostExecute despliega el resultado.
-        @Override
-        protected void onPostExecute(String result) {
-            //Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
-            System.out.println(result);
-            try {
-                JSONObject answer = new JSONObject(result);
-                String errorL = answer.getString("message");
-                Toast.makeText(getBaseContext(), errorL, Toast.LENGTH_LONG).show();
-                //Error
 
-            } catch (JSONException e) {
-                Toast.makeText(getBaseContext(), "Acceso exitoso!", Toast.LENGTH_LONG).show();
-            }
-
-            //Toast.makeText(getBaseContext(), result , Toast.LENGTH_LONG).show();
-            finish();
-
-        }
-    }
-
-    private void checkLogin(String email, String pass) {
+    private void checkEmail(String email) {
 
         if (!valid.isEmailFormated(email)) {
             IniciarS.setEnabled(false);
@@ -201,13 +207,14 @@ public class LoginRepartidor extends AppCompatActivity {
             //Boton inicio de sesión enabled
             IniciarS.setEnabled(true);
             estadoCorreo.setText("");
-            estadoCorreo.setBackgroundColor(0x00000000 );
-        }else{
-            IniciarS.setEnabled(false);
-            estadoCorreo
-            estado.setBackgroundColor(Color.RED);
-            estado.setText("Conectado");
+            estadoCorreo.setBackgroundColor(0x00000000);
         }
+    }
 
+    private void checkPassword(String password){
+        if (valid.passCheck(password))
+            IniciarS.setEnabled(false);
+        else
+            IniciarS.setEnabled(true);
     }
 }
