@@ -78,7 +78,7 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
-        this.goToCurrentLocation();
+        //this.goToCurrentLocation();
     }
 
     public void finishRegistrationProcess(){
@@ -100,7 +100,7 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
 
         HttpPostAsyncTask httpPostAsyncTask = new HttpPostAsyncTask(entity);
         String url = "http://69.46.5.165:8081/dlv1601/public/api/deliveryman/register";
-        httpPostAsyncTask.POST(url);
+        httpPostAsyncTask.execute(url);
     }
 
     @Override
@@ -129,7 +129,8 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
         public void onLocationChanged(Location location) {
 
             currentLocation = location;
-            this.setupMarker();
+            setupMarker();
+            goToCurrentLocation();
         }
 
         @Override
@@ -148,16 +149,18 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
 
         }
 
-        private void setupMarker(){
 
-            if(currentMarker == null){
-                currentMarker = map.addMarker(new MarkerOptions()
-                        .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
-                        .title("")
-                        .snippet(""));
-            }
-            currentMarker.setPosition(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
+    }
+
+    private void setupMarker(){
+
+        if(currentMarker == null){
+            currentMarker = map.addMarker(new MarkerOptions()
+                    .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
+                    .title("")
+                    .snippet(""));
         }
+        currentMarker.setPosition(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
     }
 
     public void verifyLocationPermissions(Activity activity) {
