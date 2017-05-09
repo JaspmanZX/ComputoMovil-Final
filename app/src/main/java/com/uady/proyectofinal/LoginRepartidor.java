@@ -1,6 +1,7 @@
 package com.uady.proyectofinal;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.provider.Settings.Secure;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -24,15 +26,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LoginRepartidor extends AppCompatActivity {
     public static EditText Correo;
+    public TextView estadoCorreo;
     public static EditText Contrasena;
     public static  String deviceID;
     Button IniciarS;
     Button CrearC;
 
-    TextView prueba;
+    TextView estado;
 
 
 
@@ -44,15 +49,16 @@ public class LoginRepartidor extends AppCompatActivity {
         Contrasena = (EditText) findViewById(R.id.input_contrasena);
         IniciarS = (Button) findViewById(R.id.boton_iniciar_sesion);
         CrearC = (Button) findViewById(R.id.buton_crear_cuenta);
-        prueba = (TextView) findViewById(R.id.texto_olvidaste_contrasena);
-        deviceID = "1";//Secure.getString(getContext().getContentResolver(), Secure.ANDROID_ID);
+        estado = (TextView) findViewById(R.id.texto_olvidaste_contrasena);
+        estadoCorreo = (TextView) findViewById(R.id.textEmailF);
+        deviceID = Secure.ANDROID_ID;
         if (isConnected()){
-            prueba.setBackgroundColor(0xFF00CC00);
-            prueba.setText("Conectado");
+            estado.setBackgroundColor(0xFF00CC00);
+            estado.setText("Conectado");
         }
         else
         {
-            prueba.setText("NO conectado");
+            estado.setText("NO conectado");
         }
 
     }
@@ -163,5 +169,28 @@ public class LoginRepartidor extends AppCompatActivity {
             finish();
 
         }
+    }
+
+    private void
+    validateEmailFormat(String email ) {
+        Pattern p;
+        Matcher m;
+        String EMAIL_PATTERN =
+                "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        p = Pattern.compile(EMAIL_PATTERN);
+        m = p.matcher(email);
+        if(m.matches()){
+            //Boton inicio de sesión enabled
+            IniciarS.setEnabled(true);
+            estadoCorreo.setText("");
+            estadoCorreo.setBackgroundColor(0x00000000 );
+        }else{
+            IniciarS.setEnabled(false);
+            estadoCorreo
+            estado.setBackgroundColor(Color.RED);
+            estado.setText("Conectado");
+        }
+
     }
 }
