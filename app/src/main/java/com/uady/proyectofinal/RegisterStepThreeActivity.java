@@ -36,6 +36,7 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
     private GoogleMap map;
     private Location currentLocation;
     private Marker currentMarker;
+    private LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +85,8 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
 
     public void finishRegistrationProcess(View view){
 
-        String latitude = String.valueOf(currentLocation.getLatitude());
-        String longitude = String.valueOf(currentLocation.getLongitude());
+        String latitude = String.valueOf(latLng.latitude);
+        String longitude = String.valueOf(latLng.longitude);
 
         RegistrationData.getInstance().setLatitude(latitude);
         RegistrationData.getInstance().setLongitude(longitude);
@@ -108,6 +109,31 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
     public void onMapReady(GoogleMap googleMap) {
 
         map = googleMap;
+
+        map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+
+            @Override
+            public void onMapLongClick(LatLng newLatLng) {;
+
+                setupMarker(newLatLng);
+                goToLatLng(newLatLng);
+                latLng = newLatLng;
+            }
+        });
+    }
+
+    private void goToLatLng(LatLng latlng){
+
+        if(latlng != null){
+            LatLng merida = new LatLng(latlng.latitude, latlng.longitude);
+            CameraPosition camPos = new CameraPosition.Builder()
+                    .target(merida) //Centramos el mapa en Merida
+                    .zoom(19) //Establecemos el zoom en 19
+                    .bearing(45) //Establecemos la orientación con el noreste arriba
+                    .build();
+            CameraUpdate camUpd = CameraUpdateFactory.newCameraPosition(camPos);
+            map.animateCamera(camUpd);
+        }
     }
 
     private void goToCurrentLocation(){
@@ -162,6 +188,17 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
                     .snippet(""));
         }
         currentMarker.setPosition(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
+    }
+
+    private void setupMarker(LatLng latLng){
+
+        if(currentMarker == null){
+            currentMarker = map.addMarker(new MarkerOptions()
+                    .position(new LatLng(latLng.latitude, latLng.longitude))
+                    .title("")
+                    .snippet(""));
+        }
+        currentMarker.setPosition(latLng);
     }
 
     public void verifyLocationPermissions(Activity activity) {

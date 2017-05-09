@@ -17,7 +17,7 @@ import java.io.UnsupportedEncodingException;
  * Created by José on 03/05/2017.
  */
 
-public class HttpPostAsyncTask extends AsyncTask{
+public class HttpPostAsyncTask extends AsyncTask<String, Void, String>{
 
     private String entity;
 
@@ -40,6 +40,8 @@ public class HttpPostAsyncTask extends AsyncTask{
             HttpResponse response = null;
             response = client.execute(post);
 
+            System.out.println(response.getStatusLine().getStatusCode());
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
@@ -49,8 +51,8 @@ public class HttpPostAsyncTask extends AsyncTask{
         }
     }
 
-    @Override
-    protected Object doInBackground(Object[] objects) {
+    protected String doInBackground(String... urls) {
+        POST(urls[0]);
         return null;
     }
 }
