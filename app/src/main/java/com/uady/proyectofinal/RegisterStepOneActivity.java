@@ -8,32 +8,58 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterStepOneActivity extends AppCompatActivity {
 
     private final int PICK_IMAGE_REQUEST = 1;
 
-    private final String DELIVERYMAN_REGISTER_URL = "http://69.46.5.165:8081/dlv1601/public/api/deliveryman/register";
+    //private final String DELIVERYMAN_REGISTER_URL = "http://69.46.5.165:8081/dlv1601/public/api/deliveryman/register";
 
     Bitmap userImage = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.register_screen_alt);
     }
 
 
-    public void registerNewDeliveryMan(View v){
+    public void goToSecondRegisrationStep(View v){
+
+        if(areAllFieldsFilled()){
+
+            RegistrationData.getInstance().setName(((EditText)findViewById(R.id.txt_Name)).getText().toString());
+            RegistrationData.getInstance().setLastName(((EditText)findViewById(R.id.txt_LastName)).getText().toString());
+            RegistrationData.getInstance().setEmail(((EditText)findViewById(R.id.txt_Email)).getText().toString());
+            RegistrationData.getInstance().setPhone(((EditText)findViewById(R.id.txt_Phone)).getText().toString());
+            RegistrationData.getInstance().setPhoto(imageToBase64String(this.userImage));
+
+            Intent intent = new Intent(this, RegisterStepTwoActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private boolean areAllFieldsFilled() {
+
+        return (!((EditText)findViewById(R.id.txt_Name)).getText().toString().equals("") &&
+                !((EditText)findViewById(R.id.txt_Email)).getText().toString().equals("") &&
+                !((EditText)findViewById(R.id.txt_LastName)).getText().toString().equals("") &&
+                !((EditText)findViewById(R.id.txt_Phone)).getText().toString().equals("") &&
+                this.userImage != null);
+
+    }
+
+    //public void registerNewDeliveryMan(View v){
 
         //leer datos
         //String JSONPayload = EntityFormatter.getInstance().deliveryToJSON();
         //new HTTPPostAsyncTask(JSONPayload).execute(DELIVERYMAN_REGISTER_URL);
-    }
+    //}
 
     public void pickAnImage(View v){
 
@@ -58,18 +84,18 @@ public class RegisterActivity extends AppCompatActivity {
                 userImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 // Log.d(TAG, String.valueOf(bitmap));
 
-                //ImageView imageView = (ImageView) findViewById(R.id.imageView);
-                //imageView.setImageBitmap(bitmap);
+                ImageView imageView = (ImageView) findViewById(R.id.profile_image);
+                imageView.setImageBitmap(userImage);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private String imageToBase64String(Bitmap Image){
+    private String imageToBase64String(Bitmap image){
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Image.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }

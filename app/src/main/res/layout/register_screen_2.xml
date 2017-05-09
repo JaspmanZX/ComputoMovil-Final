@@ -29,5 +29,6 @@
         android:layout_alignRight="@+id/calendarView"
         android:layout_alignEnd="@+id/calendarView"
         android:layout_marginBottom="25dp"
-        android:id="@+id/button2" />
+        android:id="@+id/button2"
+        android:onClick="goToThirdRegistrationStep"/>
 </RelativeLayout>
