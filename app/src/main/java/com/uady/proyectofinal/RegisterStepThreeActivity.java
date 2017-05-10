@@ -85,11 +85,8 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
 
     public void finishRegistrationProcess(View view){
 
-        String latitude = String.valueOf(latLng.latitude);
-        String longitude = String.valueOf(latLng.longitude);
-
-        RegistrationData.getInstance().setLatitude(latitude);
-        RegistrationData.getInstance().setLongitude(longitude);
+        RegistrationData.getInstance().setLatitude( latLng.latitude );
+        RegistrationData.getInstance().setLongitude( latLng.longitude );
 
         this.postDeliveryMan();
     }
