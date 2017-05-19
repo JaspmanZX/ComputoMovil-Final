@@ -12,7 +12,7 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.emptyness);
 
         int delivery_id = 5; //eventualmente se leerá del intent para obtener la id del delivery elegido
         new GETDeliveryDetails(this).execute("http://69.46.5.165:8081/dlv1601/public/api/deliveryman/delivery/" + delivery_id);

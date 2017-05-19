@@ -3,6 +3,7 @@ package com.uady.proyectofinal.HTTPMessages;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.uady.proyectofinal.Credentials;
 import com.uady.proyectofinal.DeliveryDetailsActivity;
 
 import org.apache.http.HttpResponse;
@@ -50,7 +51,9 @@ public class GETDeliveryDetails extends AsyncTask<String, Void, String> {
 // HttpClient
             HttpClient httpclient = new DefaultHttpClient();
 // GET operacion
-            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
+            HttpGet get = new HttpGet(url);
+            get.addHeader("Authorization", "Basic " + Credentials.getInstance().getCredential());
+            HttpResponse httpResponse = httpclient.execute(get);
 // recibe respuesta
             inputStream = httpResponse.getEntity().getContent();
 // procesa resp a string

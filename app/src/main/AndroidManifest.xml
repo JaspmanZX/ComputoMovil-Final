@@ -11,14 +11,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DeliveryDetailsActivity">
+        <activity android:name=".DeliveryDetailsActivity"></activity>
+
+        <activity android:name=".LoginRepartidor"></activity>
+
+        <activity android:name=".DeliveryMapActivity"></activity>
+
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DeliveryMapActivity"></activity>
     </application>
 
 </manifest>
