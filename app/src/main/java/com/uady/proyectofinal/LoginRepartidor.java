@@ -45,11 +45,11 @@ public class LoginRepartidor extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        IniciarS.setEnabled(false);
         setContentView(R.layout.activity_login_repartidor);
         Correo = (EditText) findViewById(R.id.input_usuario);
         Contrasena = (EditText) findViewById(R.id.input_contrasena);
         IniciarS = (Button) findViewById(R.id.boton_iniciar_sesion);
+        //IniciarS.setEnabled(false);
         CrearC = (Button) findViewById(R.id.buton_crear_cuenta);
         estado = (TextView) findViewById(R.id.texto_olvidaste_contrasena); //TODO cambiar esta variable
         estadoCorreo = (TextView) findViewById(R.id.textEmailF);
