@@ -52,7 +52,7 @@ public class GETDeliveryDetails extends AsyncTask<String, Void, String> {
             HttpClient httpclient = new DefaultHttpClient();
 // GET operacion
             HttpGet get = new HttpGet(url);
-            get.addHeader("Authorization", "Basic " + Credentials.getInstance().getCredential());
+            get.addHeader("Authorization", "Bearer " + Credentials.getInstance().getCredential());
             HttpResponse httpResponse = httpclient.execute(get);
 // recibe respuesta
             inputStream = httpResponse.getEntity().getContent();
