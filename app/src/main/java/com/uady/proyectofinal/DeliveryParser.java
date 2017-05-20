@@ -20,11 +20,11 @@ public class DeliveryParser {
         return parser;
     }
 
-    public void setupDelivery( String jsonString ){
+    public void setupDelivery( String result ){
 
         try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-            JSONObject jsonData = jsonObject.getJSONArray("data").getJSONObject(0);
+            JSONObject jsonObject = new JSONObject( result );
+            JSONObject jsonData = jsonObject.getJSONObject("data");
 
             String name = jsonData.getJSONObject("status").getString("name");
             String description = jsonData.getJSONObject("shipping").getString("description");
