@@ -1,7 +1,9 @@
 package com.uady.proyectofinal;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.uady.proyectofinal.HTTPMessages.GETDeliveryDetails;
 
@@ -20,6 +22,17 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
 
     public void displayDeliveryDetalis(){
 
-        //this.delivery = delivery;
+        Delivery.getDelivery();
+    }
+
+    public void showMap(View v){
+
+        Intent intent = new Intent(this, DeliveryMapActivity.class);
+        intent.putExtra("LatClient",Delivery.getDelivery().getLatClient());
+        intent.putExtra("LonClient",Delivery.getDelivery().getLonClient());
+        intent.putExtra("LatCompany",Delivery.getDelivery().getLatCompany());
+        intent.putExtra("LonCompany",Delivery.getDelivery().getLonCompany());
+
+        startActivity(intent);
     }
 }

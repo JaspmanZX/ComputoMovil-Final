@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.uady.proyectofinal.Credentials;
 import com.uady.proyectofinal.DeliveryDetailsActivity;
+import com.uady.proyectofinal.DeliveryParser;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -39,7 +40,7 @@ public class GETDeliveryDetails extends AsyncTask<String, Void, String> {
 
         if(!result.equals("Problemas!")){
             System.out.println(result);
-            //se genera el objeto que contiene la info de delivery
+            DeliveryParser.getParser().setupDelivery(result);
             this.activity.displayDeliveryDetalis();
         }
     }
