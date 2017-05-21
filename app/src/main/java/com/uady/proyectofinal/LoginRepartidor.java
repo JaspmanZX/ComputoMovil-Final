@@ -119,6 +119,13 @@ public class LoginRepartidor extends AppCompatActivity {
 
             } catch (JSONException e) {
                 Toast.makeText(getBaseContext(), "Acceso exitoso!", Toast.LENGTH_LONG).show();
+                try{
+                    JSONObject answer = new JSONObject(result);
+                    Credentials.getInstance().setCredential(answer.getString("access_token"));
+                }catch(JSONException e1){
+                    e1.printStackTrace();
+
+                }
             }
 
             //Toast.makeText(getBaseContext(), result , Toast.LENGTH_LONG).show();
