@@ -13,6 +13,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,6 +26,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class DeliveryMapActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private GoogleMap map;
+    private Location deliverymanLocation;
+    private Marker deliverymanMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +91,8 @@ public class DeliveryMapActivity extends AppCompatActivity implements OnMapReady
         public void onLocationChanged(Location location) {
 
             //cambiar el marcador del repartidor
+            deliverymanLocation = location;
+            setupDeliverymanMarker();
         }
 
         @Override
@@ -112,9 +118,11 @@ public class DeliveryMapActivity extends AppCompatActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
 
         map = googleMap;
+        map.getUiSettings().setZoomControlsEnabled(true);
 
         setupCompanyMarker();
         setupClientMarker();
+        moveToMerida();
     }
 
     private void setupCompanyMarker() {
@@ -135,5 +143,31 @@ public class DeliveryMapActivity extends AppCompatActivity implements OnMapReady
                 .title("Punto de entrega")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
         );
+    }
+
+    private void setupDeliverymanMarker(){
+
+        if( deliverymanMarker == null ){
+            deliverymanMarker = map.addMarker(new MarkerOptions()
+                    .position(
+                            new LatLng(
+                                    deliverymanLocation.getLatitude(),
+                                    deliverymanLocation.getLongitude()
+                            )
+                    )
+                    .title("Repartidor")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+            );
+        }
+
+        deliverymanMarker.setPosition(
+                new LatLng(deliverymanLocation.getLatitude(), deliverymanLocation.getLongitude())
+        );
+    }
+
+    private void moveToMerida(){
+
+        CameraUpdate camUpd1 = CameraUpdateFactory.newLatLngZoom(new LatLng(20.9802, -89.7029), 10);
+        map.moveCamera(camUpd1);
     }
 }
