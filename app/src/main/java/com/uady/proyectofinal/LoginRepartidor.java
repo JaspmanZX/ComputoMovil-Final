@@ -1,6 +1,7 @@
 package com.uady.proyectofinal;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -39,6 +40,7 @@ public class LoginRepartidor extends AppCompatActivity {
     Button IniciarS;
     Button CrearC;
 
+    public boolean exitoso;
     TextView estado;
 
 
@@ -54,6 +56,8 @@ public class LoginRepartidor extends AppCompatActivity {
         estado = (TextView) findViewById(R.id.texto_olvidaste_contrasena); //TODO cambiar esta variable
         estadoCorreo = (TextView) findViewById(R.id.textEmailF);
         deviceID = Secure.getString(this.getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
+
+        exitoso = false;
         if (isConnected()) {
             //No se debe modificar esta variable
             estado.setBackgroundColor(0xFF00CC00);
@@ -99,6 +103,11 @@ public class LoginRepartidor extends AppCompatActivity {
     public void btnIniciarSesion(View v) {
         HttpAsyncTask IniciarSesion = new HttpAsyncTask();//.execute("http://petstore.swagger.io/v2/pet/findByStatus?status=sold");
         IniciarSesion.execute("http://69.46.5.165:8081/dlv1601/public/api/user/login");
+        if(exitoso){
+            Intent intent = new Intent(this,DeliverysActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
         @Override
@@ -122,6 +131,8 @@ public class LoginRepartidor extends AppCompatActivity {
                 try{
                     JSONObject answer = new JSONObject(result);
                     Credentials.getInstance().setCredential(answer.getString("access_token"));
+                    exitoso = true;
+
                 }catch(JSONException e1){
                     e1.printStackTrace();
 
@@ -129,7 +140,7 @@ public class LoginRepartidor extends AppCompatActivity {
             }
 
             //Toast.makeText(getBaseContext(), result , Toast.LENGTH_LONG).show();
-            finish();
+
 
         }
     }
