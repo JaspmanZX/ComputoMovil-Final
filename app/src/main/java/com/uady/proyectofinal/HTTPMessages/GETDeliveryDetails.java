@@ -38,7 +38,7 @@ public class GETDeliveryDetails extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
 
-        if(!result.equals("Problemas!")){
+        if(!result.equals("Problemas!") || !result.contains("403")){
             System.out.println(result);
             DeliveryParser.getParser().setupDelivery(result);
             this.activity.displayDeliveryDetalis();
