@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,7 +35,6 @@ import com.uady.proyectofinal.HTTPMessages.HttpPostAsyncTask;
 public class RegisterStepThreeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap map;
-    private Location currentLocation;
     private Marker currentMarker;
     private LatLng latLng;
 
@@ -55,8 +55,6 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
 
         verifyLocationPermissions(this);
 
-        MyLocationListener myLocationListener = new MyLocationListener();
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
@@ -70,25 +68,27 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                2000,
-                1,
-                myLocationListener
-        );
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
+    }
 
-        //this.goToCurrentLocation();
+    private void moveToMerida(){
+
+        CameraUpdate camUpd1 = CameraUpdateFactory.newLatLngZoom(new LatLng(20.9802, -89.7029), 10);
+        map.moveCamera(camUpd1);
     }
 
     public void finishRegistrationProcess(View view){
 
-        RegistrationData.getInstance().setLatitude( latLng.latitude );
-        RegistrationData.getInstance().setLongitude( latLng.longitude );
+        if( latLng != null ){
 
-        this.postDeliveryMan();
+            RegistrationData.getInstance().setLatitude( latLng.latitude );
+            RegistrationData.getInstance().setLongitude( latLng.longitude );
+
+            this.postDeliveryMan();
+            this.returnToMainView();
+        }
     }
 
     private void postDeliveryMan(){
@@ -102,10 +102,18 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
         httpPostAsyncTask.execute(url);
     }
 
+    private void returnToMainView(){
+
+        Toast.makeText(getApplicationContext(), "Repartidor añadido exitosamente.", Toast.LENGTH_SHORT);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         map = googleMap;
+        map.getUiSettings().setZoomControlsEnabled(true);
 
         map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
@@ -117,6 +125,8 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
                 latLng = newLatLng;
             }
         });
+
+        moveToMerida();
     }
 
     private void goToLatLng(LatLng latlng){
@@ -131,60 +141,6 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
             CameraUpdate camUpd = CameraUpdateFactory.newCameraPosition(camPos);
             map.animateCamera(camUpd);
         }
-    }
-
-    private void goToCurrentLocation(){
-
-        if(currentLocation != null){
-            LatLng merida = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-            CameraPosition camPos = new CameraPosition.Builder()
-                    .target(merida) //Centramos el mapa en Merida
-                    .zoom(19) //Establecemos el zoom en 19
-                    .bearing(45) //Establecemos la orientación con el noreste arriba
-                    .build();
-            CameraUpdate camUpd = CameraUpdateFactory.newCameraPosition(camPos);
-            map.animateCamera(camUpd);
-        }
-    }
-
-    private class MyLocationListener implements LocationListener {
-
-        @Override
-        public void onLocationChanged(Location location) {
-
-            currentLocation = location;
-            setupMarker();
-            goToCurrentLocation();
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-
-
-    }
-
-    private void setupMarker(){
-
-        if(currentMarker == null){
-            currentMarker = map.addMarker(new MarkerOptions()
-                    .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
-                    .title("")
-                    .snippet(""));
-        }
-        currentMarker.setPosition(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
     }
 
     private void setupMarker(LatLng latLng){

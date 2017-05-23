@@ -36,9 +36,20 @@
         android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Continuar"
-        android:layout_alignParentBottom="true"
+        android:text="Iniciar sesion"
+        android:layout_below="@id/imageView"
         android:layout_centerHorizontal="true"
+        android:layout_margin="5pt"
         android:onClick="goToLogin"
         />
+    <Button
+        android:id="@+id/buttonRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registrarse"
+        android:layout_below="@id/buttonLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5pt"
+        android:onClick="goToRegister"/>
+
 </RelativeLayout>
