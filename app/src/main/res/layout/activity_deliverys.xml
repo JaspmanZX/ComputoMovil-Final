@@ -6,4 +6,12 @@
     android:layout_height="match_parent"
     tools:context="com.uady.proyectofinal.DeliverysActivity">
 
+    <Button
+        android:id="@+id/btnInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Info"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="31dp"
+        android:onClick="btnInfo"/>
 </android.support.constraint.ConstraintLayout>

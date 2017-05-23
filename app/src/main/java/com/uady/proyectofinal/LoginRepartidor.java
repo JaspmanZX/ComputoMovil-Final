@@ -88,9 +88,6 @@ public class LoginRepartidor extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
 
-
-
-
     }
     public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
@@ -103,11 +100,7 @@ public class LoginRepartidor extends AppCompatActivity {
     public void btnIniciarSesion(View v) {
         HttpAsyncTask IniciarSesion = new HttpAsyncTask();//.execute("http://petstore.swagger.io/v2/pet/findByStatus?status=sold");
         IniciarSesion.execute("http://69.46.5.165:8081/dlv1601/public/api/user/login");
-        if(exitoso){
-            Intent intent = new Intent(this,DeliverysActivity.class);
-            startActivity(intent);
-            finish();
-        }
+
     }
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
         @Override
@@ -127,14 +120,19 @@ public class LoginRepartidor extends AppCompatActivity {
                 //Error
 
             } catch (JSONException e) {
-                Toast.makeText(getBaseContext(), "Acceso exitoso!", Toast.LENGTH_LONG).show();
                 try{
                     JSONObject answer = new JSONObject(result);
                     Credentials.getInstance().setCredential(answer.getString("access_token"));
                     exitoso = true;
 
+                    Toast.makeText(getBaseContext(), "Acceso exitoso!", Toast.LENGTH_LONG).show();
+
+                    Terminar();
+
                 }catch(JSONException e1){
                     e1.printStackTrace();
+                    Toast.makeText(getBaseContext(), "Acceso fallido!", Toast.LENGTH_LONG).show();
+
 
                 }
             }
@@ -143,8 +141,14 @@ public class LoginRepartidor extends AppCompatActivity {
 
 
         }
+
     }
 
+    public void Terminar(){
+        Intent intent = new Intent(this,DeliverysActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     public String POST(String url) {
         InputStream inputStream = null;
@@ -171,7 +175,6 @@ public class LoginRepartidor extends AppCompatActivity {
 
             // 3. build jsonObject
             JSONObject jsonObject = new JSONObject(json);
-
             // 4. convert JSONObject to JSON to String
             json = jsonObject.toString();
 
@@ -245,4 +248,9 @@ public class LoginRepartidor extends AppCompatActivity {
         else
             IniciarS.setEnabled(true);
     }
+
+
+
+
+
 }

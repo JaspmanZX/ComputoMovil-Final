@@ -24,7 +24,6 @@ public class GETDeliverys extends AsyncTask<String, Void, String> {
         this.activity = activity;
     }
 
-
     @Override
     protected String doInBackground(String... urls) {
         return GET(urls[0]);
@@ -36,8 +35,9 @@ public class GETDeliverys extends AsyncTask<String, Void, String> {
         if(!result.equals("Problemas!")){
             System.out.println(result);
             //se genera el objeto que contiene la info de delivery
-            this.activity.displayDeliverys();
+            this.activity.displayDeliverys(result);
         }
+
     }
 
     public static String GET(String url) {
@@ -63,6 +63,7 @@ public class GETDeliverys extends AsyncTask<String, Void, String> {
             Log.d("InputStream", e.getLocalizedMessage());
 
         }
+        //Toast.makeText(getBaseContext(), result , Toast.LENGTH_LONG).show();
         return result;
     }
 
