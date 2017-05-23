@@ -25,4 +25,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,LoginRepartidor.class);
         startActivity(intent);
     }
+
+    public void goToRegister( View view ){
+
+        Intent intent = new Intent( this, RegisterStepOneActivity.class );
+        startActivity( intent );
+    }
 }

@@ -37,7 +37,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".RegisterStepThreeActivity"
-            android:label="@string/title_activity_register_sep_two"
+            android:label="RegisterStepThree"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <meta-data
