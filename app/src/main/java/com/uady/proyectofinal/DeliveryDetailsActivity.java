@@ -4,17 +4,29 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.uady.proyectofinal.HTTPMessages.GETDeliveryDetails;
 
 public class DeliveryDetailsActivity extends AppCompatActivity {
 
     //private Delivery delivery;
+    TextView client;
+    TextView delivery_status;
+    TextView delivery_quantity;
+    TextView delivery_size;
+    TextView delivery_description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.emptyness);
+
+        client = (TextView) findViewById(R.id.client_view);
+        delivery_status = (TextView) findViewById(R.id.delivery_status);
+        delivery_quantity = (TextView) findViewById(R.id.delivery_quantity);
+        delivery_size = (TextView) findViewById(R.id.delivery_size);
+        delivery_description = (TextView) findViewById(R.id.delivery_description);
 
         int delivery_id = 65; //eventualmente se leerá del intent para obtener la id del delivery elegido
         new GETDeliveryDetails(this).execute("http://69.46.5.165:8081/dlv1601/public/api/deliveryman/delivery/" + delivery_id);
@@ -22,7 +34,13 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
 
     public void displayDeliveryDetalis(){
 
-        Delivery.getDelivery();
+        Delivery delivery = Delivery.getDelivery();
+        client.setText(delivery.getClientFullname());
+        delivery_status.setText(delivery.getStatusName());
+        delivery_description.setText(delivery.getShippingDescription());
+        delivery_quantity.setText(String.valueOf(delivery.getShippingQuantity()));
+        delivery_size.setText(String.valueOf(delivery.getShippingSize()));
+
     }
 
     public void showMap(View v){
