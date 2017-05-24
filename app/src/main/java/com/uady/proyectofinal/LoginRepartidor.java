@@ -147,7 +147,9 @@ public class LoginRepartidor extends AppCompatActivity {
     }
 
     public void Terminar(){
-        Intent intent = new Intent(this,DeliverysActivity.class);
+        //Intent intent = new Intent(this,DeliverysActivity.class);
+        //startActivity(intent);
+        Intent intent = new Intent(this,DeliveryStatusActivity .class);
         startActivity(intent);
         finish();
     }

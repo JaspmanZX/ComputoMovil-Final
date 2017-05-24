@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginRepartidor" />
-        <activity android:name=".DeliverysActivity"></activity>
+        <activity android:name=".DeliverysActivity" />
+        <activity android:name=".DeliveryStatusActivity"></activity>
     </application>
 
 </manifest>
