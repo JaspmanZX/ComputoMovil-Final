@@ -19,9 +19,7 @@ public class RegisterStepOneActivity extends AppCompatActivity {
 
     private final int PICK_IMAGE_REQUEST = 1;
 
-    //private final String DELIVERYMAN_REGISTER_URL = "http://69.46.5.165:8081/dlv1601/public/api/deliveryman/register";
-
-    Bitmap userImage = null;
+    private Bitmap userImage = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +58,6 @@ public class RegisterStepOneActivity extends AppCompatActivity {
 
     }
 
-    //public void registerNewDeliveryMan(View v){
-
-        //leer datos
-        //String JSONPayload = EntityFormatter.getInstance().deliveryToJSON();
-        //new HTTPPostAsyncTask(JSONPayload).execute(DELIVERYMAN_REGISTER_URL);
-    //}
 
     public void pickAnImage(View v){
 
@@ -88,7 +80,6 @@ public class RegisterStepOneActivity extends AppCompatActivity {
 
             try {
                 userImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                // Log.d(TAG, String.valueOf(bitmap));
 
                 ImageView imageView = (ImageView) findViewById(R.id.profile_image);
                 imageView.setImageBitmap(userImage);
