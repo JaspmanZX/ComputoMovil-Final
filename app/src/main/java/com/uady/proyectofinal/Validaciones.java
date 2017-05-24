@@ -11,25 +11,25 @@ import java.util.regex.Pattern;
 public class Validaciones {
 
 
-public boolean isEmailFormated(String email){
-    Pattern p;
-    Matcher m;
-    String EMAIL_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    p = Pattern.compile(EMAIL_PATTERN);
-    m = p.matcher(email);
+    public boolean isEmailFormated(String email){
+        Pattern p;
+        Matcher m;
+        String EMAIL_PATTERN =
+                "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        p = Pattern.compile(EMAIL_PATTERN);
+        m = p.matcher(email);
 
-    return m.matches();
-}
+        return m.matches();
+    }
 
-public boolean passCheck(String password){
-    if(password.isEmpty())
-        return false;
-    else
-        return  true;
+    public boolean passCheck(String password){
+        if(password.isEmpty())
+            return false;
+        else
+            return  true;
 
-}
+    }
 
 }
 
