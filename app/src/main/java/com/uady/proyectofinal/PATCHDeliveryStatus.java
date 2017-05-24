@@ -24,9 +24,9 @@ import java.io.InputStreamReader;
  * Created by victor on 24/05/17.
  */
 
-public class POSTDeliveryStatus extends AsyncTask<String, Void, String> {
+public class PATCHDeliveryStatus extends AsyncTask<String, Void, String> {
     DeliveryStatusActivity activity;
-    public POSTDeliveryStatus(DeliveryStatusActivity activity){
+    public PATCHDeliveryStatus(DeliveryStatusActivity activity){
         this.activity = activity;
     }
 
@@ -62,7 +62,7 @@ public class POSTDeliveryStatus extends AsyncTask<String, Void, String> {
 
             // 1. create HttpClient
             HttpClient httpclient = new DefaultHttpClient();
-            // 2. make POST request to the given URL
+            // 2. make PATCH request to the given URL
             HttpPatch httpPost = new HttpPatch(url);
 
             String json = "{\n" +

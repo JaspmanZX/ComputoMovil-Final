@@ -13,7 +13,7 @@ public class DeliveryStatusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_delivery_status);
         idStatus= "2";
         statusCambiar = "5";
-        new POSTDeliveryStatus(this).execute("http://69.46.5.165:8081/dlv1601/public/api/deliveryman/delivery/status");
+        new PATCHDeliveryStatus(this).execute("http://69.46.5.165:8081/dlv1601/public/api/deliveryman/delivery/status");
         System.out.println("EJECUTANDO POST!!");
     }
 
