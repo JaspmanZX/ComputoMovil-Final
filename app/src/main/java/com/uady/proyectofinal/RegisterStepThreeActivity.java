@@ -107,6 +107,7 @@ public class RegisterStepThreeActivity extends AppCompatActivity implements OnMa
         Toast.makeText(getApplicationContext(), "Repartidor añadido exitosamente.", Toast.LENGTH_SHORT);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

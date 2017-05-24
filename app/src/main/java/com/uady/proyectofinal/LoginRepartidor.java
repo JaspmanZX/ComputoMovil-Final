@@ -140,6 +140,7 @@ public class LoginRepartidor extends AppCompatActivity {
         Intent intent = new Intent(this, DeliveryDetailsActivity.class);
 
         startActivity(intent);
+        finish();
     }
 
 

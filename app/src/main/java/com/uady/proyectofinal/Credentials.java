@@ -19,10 +19,6 @@ public class Credentials {
         return ourInstance;
     }
 
-    public static void setOurInstance(Credentials ourInstance) {
-        Credentials.ourInstance = ourInstance;
-    }
-
 
     public String getCredential() {
         return credential;

@@ -29,6 +29,7 @@ public class RegisterStepTwoActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, RegisterStepThreeActivity.class);
         startActivity(intent);
+        finish();
 
     }
 

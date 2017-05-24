@@ -41,6 +41,8 @@ public class RegisterStepOneActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, RegisterStepTwoActivity.class);
             startActivity(intent);
+
+            finish();
         }else{
 
             Toast.makeText(this, "Faltan campos por llenar ", Toast.LENGTH_SHORT).show();
