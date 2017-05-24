@@ -3,6 +3,8 @@ package com.uady.proyectofinal;
 import android.os.AsyncTask;
 import android.util.Log;
 
+
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -57,10 +59,12 @@ public class POSTDeliveryStatus extends AsyncTask<String, Void, String> {
         InputStream inputStream = null;
         String result = "";
         try {
+
             // 1. create HttpClient
             HttpClient httpclient = new DefaultHttpClient();
             // 2. make POST request to the given URL
-            HttpPost httpPost = new HttpPost(url);
+            HttpPatch httpPost = new HttpPatch(url);
+
             String json = "{\n" +
                     "  \"idDelivery\": " + aux1 + ",\n" +
                     "  \"statusCode\": " + aux2 + "\n" +
