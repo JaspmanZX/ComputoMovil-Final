@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 
-public class stuatusActivity extends AppCompatActivity {
+public class StatusActivity extends AppCompatActivity {
     final String URL = "http://69.46.5.165:8081/dlv1601/public/api/deliveryman/delivery/status";
     EditText titulo;
     JSONObject cambiarEstado;
