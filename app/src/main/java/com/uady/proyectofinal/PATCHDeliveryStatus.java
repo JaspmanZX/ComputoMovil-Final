@@ -39,7 +39,7 @@ public class PATCHDeliveryStatus extends AsyncTask<String, Void, String> {
         System.out.println(aux2);
 
 
-        return POST(urls[0], aux1, aux2);
+        return PATCH(urls[0], aux1, aux2);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class PATCHDeliveryStatus extends AsyncTask<String, Void, String> {
 
     }
 
-    public static String POST(String url, String aux1, String aux2) {
+    public static String PATCH(String url, String aux1, String aux2) {
         InputStream inputStream = null;
         String result = "";
         try {
