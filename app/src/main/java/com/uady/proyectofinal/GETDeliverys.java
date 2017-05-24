@@ -7,6 +7,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,7 +36,11 @@ public class GETDeliverys extends AsyncTask<String, Void, String> {
         if(!result.equals("Problemas!")){
             System.out.println(result);
             //se genera el objeto que contiene la info de delivery
-            this.activity.displayDeliverys(result);
+            try {
+                this.activity.displayDeliverys(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
     }

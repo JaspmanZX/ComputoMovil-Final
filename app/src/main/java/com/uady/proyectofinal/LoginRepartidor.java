@@ -43,7 +43,6 @@ public class LoginRepartidor extends AppCompatActivity {
     public boolean exitoso;
     TextView estado;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +88,7 @@ public class LoginRepartidor extends AppCompatActivity {
         });
 
     }
+
     public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -97,11 +97,13 @@ public class LoginRepartidor extends AppCompatActivity {
         else
             return false;
     }
+
     public void btnIniciarSesion(View v) {
         HttpAsyncTask IniciarSesion = new HttpAsyncTask();//.execute("http://petstore.swagger.io/v2/pet/findByStatus?status=sold");
         IniciarSesion.execute("http://69.46.5.165:8081/dlv1601/public/api/user/login");
 
     }
+
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
@@ -212,7 +214,6 @@ public class LoginRepartidor extends AppCompatActivity {
         return result;
     }
 
-
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String line = "";
@@ -222,10 +223,6 @@ public class LoginRepartidor extends AppCompatActivity {
         inputStream.close();
         return result;
     }
-
-
-
-
 
     private void checkEmail(String email) {
 
@@ -248,9 +245,4 @@ public class LoginRepartidor extends AppCompatActivity {
         else
             IniciarS.setEnabled(true);
     }
-
-
-
-
-
 }
