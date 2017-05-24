@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TextView
-        android:text="Cliente: "
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView6"
-        android:textAlignment="center"
-        android:textStyle="normal|bold|italic"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="57dp" />
 
     <Button
         android:layout_width="match_parent"
@@ -27,6 +15,18 @@
         android:layout_marginBottom="22dp" />
 
     <TextView
+        android:text="Cliente: "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        android:textAlignment="center"
+        android:textStyle="normal|bold|italic"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="57dp" />
+
+    <TextView
         android:text="Cliente"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,27 +36,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="14dp" />
-
-    <TextView
-        android:text="Estado de la entrega:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:id="@+id/textView7"
-        android:textStyle="normal|bold|italic"
-        android:layout_below="@+id/client_view"
-        android:layout_centerHorizontal="true"
-        android:textAlignment="center" />
-
-    <TextView
-        android:text="Estado"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView7"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="11dp"
-        android:id="@+id/delivery_status"
-        android:textAlignment="center" />
 
     <TextView
         android:text="Descripción"
@@ -115,4 +94,32 @@
         android:textAlignment="center" />
 
 
-</RelativeLayout>
+    <TextView
+        android:text="Estado de la entrega:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:id="@+id/textView7"
+        android:textStyle="normal|bold|italic"
+        android:layout_below="@+id/client_view"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text="Estado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView7"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:id="@+id/delivery_status"
+        android:textAlignment="center" />
+
+    <Button
+        android:text="Cambiar Estado"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:id="@+id/change_status" />
+
+
+</LinearLayout>
