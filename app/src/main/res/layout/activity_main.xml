@@ -36,7 +36,6 @@
         android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
         android:text="Iniciar sesion"
         android:layout_below="@id/imageView"
         android:layout_centerHorizontal="true"
@@ -54,11 +53,3 @@
         android:onClick="goToRegister"/>
 
 </RelativeLayout>
-=======
-        android:text="Continuar"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="goToLogin"
-        />
-</RelativeLayout>
->>>>>>> login
