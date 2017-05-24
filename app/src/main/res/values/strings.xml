@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">ProyectoFinal</string>
+<<<<<<< HEAD
     <string name="title_activity_register_sep_two">RegisterSepTwo</string>
+=======
+
+>>>>>>> login
 </resources>

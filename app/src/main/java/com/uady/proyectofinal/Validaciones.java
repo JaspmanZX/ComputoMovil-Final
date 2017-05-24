@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 
 public class Validaciones {
 
-
 public boolean isEmailFormated(String email){
     Pattern p;
     Matcher m;
