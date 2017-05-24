@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.uady.proyectofinal.stuatusActivity">
+    tools:context="com.uady.proyectofinal.StatusActivity">
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Establecer un estado"
+        android:textAlignment="center" />
 
     <EditText
         android:id="@+id/idText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="ID del Pedido: 2999"
         tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="28dp" />
+        tools:layout_editor_absoluteY="28dp"
+        android:textAlignment="center" />
 
     <Button
         android:id="@+id/buttonSt1"
-        android:layout_width="221dp"
+        android:layout_width="match_parent"
         android:layout_height="49dp"
         android:text="Cancelar"
         tools:layout_editor_absoluteX="82dp"
         android:layout_marginTop="8dp"
-        android:onClick="cancelarPedido"/>
+        android:onClick="cancelarPedido" />
 
 
     <Button
         android:id="@+id/buttonSt2"
-        android:layout_width="221dp"
+        android:layout_width="match_parent"
         android:layout_height="49dp"
         android:text="Entregado"
         tools:layout_editor_absoluteX="82dp"
@@ -38,27 +49,9 @@
 
     <Button
         android:id="@+id/buttonSt3"
-        android:layout_width="221dp"
+        android:layout_width="match_parent"
         android:layout_height="49dp"
         android:text="Por Entregar"
         android:onClick="proseguirPedido"
         />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        tools:layout_editor_absoluteX="-38dp"
-        tools:layout_editor_absoluteY="-50dp" />
-
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Establecer un estado"
-/>
-</RelativeLayout>
+</LinearLayout>

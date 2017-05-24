@@ -23,7 +23,8 @@ public class StatusActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String credencial = Credentials.getInstance().getCredential();
+
+        setContentView(R.layout.activity_status);
         titulo = (EditText) findViewById(R.id.idText);
         int id = getIntent().getIntExtra("id",-1);
         cambiarEstado = new JSONObject();
@@ -37,7 +38,7 @@ public class StatusActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_status);
+
     }
 
     public void cancelarPedido(View view){
@@ -45,6 +46,7 @@ public class StatusActivity extends AppCompatActivity {
             cambiarEstado.put("idDelivery", id);
             cambiarEstado.put("statusCode", 6);
 
+            new PatchAsyncTask().execute();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -54,6 +56,8 @@ public class StatusActivity extends AppCompatActivity {
         try {
             cambiarEstado.put("idDelivery", id);
             cambiarEstado.put("statusCode", 5);
+
+            new PatchAsyncTask().execute();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -63,6 +67,8 @@ public class StatusActivity extends AppCompatActivity {
         try {
             cambiarEstado.put("idDelivery", id);
             cambiarEstado.put("statussCode", 4);
+
+            new PatchAsyncTask().execute();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -75,6 +81,12 @@ public class StatusActivity extends AppCompatActivity {
 
 
             return PATCH(URL);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            returnToDeliveryDetails();
         }
 
         protected String PATCH(String url) {
@@ -105,5 +117,10 @@ public class StatusActivity extends AppCompatActivity {
             return result;
 
         }
+    }
+
+    private void returnToDeliveryDetails(){
+
+        finish();
     }
 }

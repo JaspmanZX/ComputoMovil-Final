@@ -118,8 +118,9 @@
     <Button
         android:text="Cambiar Estado"
         android:layout_width="match_parent"
-        android:layout_height="33dp"
-        android:id="@+id/change_status" />
+        android:layout_height="wrap_content"
+        android:id="@+id/change_status"
+        android:onClick="goToChangeState"/>
 
 
 </LinearLayout>

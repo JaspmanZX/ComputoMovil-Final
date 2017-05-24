@@ -11,11 +11,12 @@ import com.uady.proyectofinal.HTTPMessages.GETDeliveryDetails;
 public class DeliveryDetailsActivity extends AppCompatActivity {
 
     //private Delivery delivery;
-    TextView client;
-    TextView delivery_status;
-    TextView delivery_quantity;
-    TextView delivery_size;
-    TextView delivery_description;
+    private TextView client;
+    private TextView delivery_status;
+    private TextView delivery_quantity;
+    private TextView delivery_size;
+    private TextView delivery_description;
+    private int delivery_id = 65; //eventualmente se leerá del intent para obtener la id del delivery elegido
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,6 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
         delivery_size = (TextView) findViewById(R.id.delivery_size);
         delivery_description = (TextView) findViewById(R.id.delivery_description);
 
-        int delivery_id = 65; //eventualmente se leerá del intent para obtener la id del delivery elegido
         new GETDeliveryDetails(this).execute("http://69.46.5.165:8081/dlv1601/public/api/deliveryman/delivery/" + delivery_id);
     }
 
@@ -52,5 +52,14 @@ public class DeliveryDetailsActivity extends AppCompatActivity {
         intent.putExtra("LonCompany",Delivery.getDelivery().getLonCompany());
 
         startActivity(intent);
+    }
+
+    public void goToChangeState(View view){
+
+        Intent intent = new Intent(this, StatusActivity.class);
+
+        intent.putExtra("id", this.delivery_id);
+        startActivity(intent);
+
     }
 }
