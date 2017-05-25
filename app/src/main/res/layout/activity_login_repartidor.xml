@@ -54,13 +54,6 @@
         android:onClick="btnIniciarSesion"
         />
 
-    <Button
-        android:id="@+id/buton_crear_cuenta"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Crear Cuenta" />
-
     <TextView
         android:id="@+id/texto_olvidaste_contrasena"
         android:layout_width="wrap_content"

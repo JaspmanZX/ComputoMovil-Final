@@ -51,7 +51,7 @@ public class LoginRepartidor extends AppCompatActivity {
         Contrasena = (EditText) findViewById(R.id.input_contrasena);
         IniciarS = (Button) findViewById(R.id.boton_iniciar_sesion);
         //IniciarS.setEnabled(false);
-        CrearC = (Button) findViewById(R.id.buton_crear_cuenta);
+        //CrearC = (Button) findViewById(R.id.buton_crear_cuenta);
         estado = (TextView) findViewById(R.id.texto_olvidaste_contrasena); //TODO cambiar esta variable
         estadoCorreo = (TextView) findViewById(R.id.textEmailF);
         deviceID = Secure.getString(this.getApplicationContext().getContentResolver(), Secure.ANDROID_ID);
@@ -123,6 +123,7 @@ public class LoginRepartidor extends AppCompatActivity {
                 try {
                     JSONObject answer = new JSONObject(result);
                     Credentials.getInstance().setCredential(answer.getString("access_token"));
+                    goToDeliveryDetails();
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                 }
@@ -130,7 +131,7 @@ public class LoginRepartidor extends AppCompatActivity {
             }
 
             //Toast.makeText(getBaseContext(), result , Toast.LENGTH_LONG).show();
-            goToDeliveryDetails();
+
 
         }
     }
@@ -239,8 +240,8 @@ public class LoginRepartidor extends AppCompatActivity {
 
     private void checkPassword(String password){
         if (valid.passCheck(password))
-            IniciarS.setEnabled(false);
-        else
             IniciarS.setEnabled(true);
+        else
+            IniciarS.setEnabled(false);
     }
 }
