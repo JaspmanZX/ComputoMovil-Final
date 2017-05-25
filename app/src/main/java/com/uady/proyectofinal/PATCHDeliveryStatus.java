@@ -108,9 +108,7 @@ public class PATCHDeliveryStatus extends AsyncTask<String, Void, String> {
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
         }
-        System.out.println("##################################");
 
-        System.out.println(result);
         // 11. return result
         return result;
     }

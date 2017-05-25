@@ -36,12 +36,62 @@ public class DeliverysActivity extends AppCompatActivity {
         // 3. build jsonObject
         listaEnvios.clear();
         System.out.println("DISPLAY DELIVERYS!!!");
+        //=======================================================================================
+        result = "{\n"+
+                "\"meta\": {\n"+
+                "\"resultsFound\": 2,\n"+
+                "\"offset\": 10,\n"+
+                "\"limit\": 10\n"+
+                "},\n"+
+                "\"data\": [\n"+
+                "{\n"+
+                "\"id\": 1,\n"+
+                "\"date\": \"2016-06-16\",\n"+
+                "\"hour\": 360,\n"+
+                "\"company\": {\n"+
+                "\"id\": 1,\n"+
+                "\"name\": \"Supreme Pizza\"\n"+
+                "},\n"+
+                "\"status\": {\n"+
+                "\"name\": \"PorConfirmar\",\n"+
+                "\"code\": 2,\n"+
+                "\"description\": \"This delivery has been asigned to at least one deliveryman and is awaiting for confirmation\"\n"+
+                "},\n"+
+                "\"client\": {\n"+
+                "\"firstName\": \"Marge\",\n"+
+                "\"lastName1\": \"Simons\",\n"+
+                "\"lastName2\": \"Soler\",\n"+
+                "\"phone\": \"9994490032\"\n"+
+                "}\n"+
+                "},\n"+
+                "{\n"+
+                "\"id\": 2,\n"+
+                "\"date\": \"2016-11-12\",\n"+
+                "\"hour\": 360,\n"+
+                "\"company\": {\n"+
+                "\"id\": 1,\n"+
+                "\"name\": \"Dominos\"\n"+
+                "},\n"+
+                "\"status\": {\n"+
+                "\"name\": \"PorConfirmar\",\n"+
+                "\"code\": 2,\n"+
+                "\"description\": \"This delivery has been asigned to at least one deliveryman and is awaiting for confirmation\"\n"+
+                "},\n"+
+                "\"client\": {\n"+
+                "\"firstName\": \"Homero\",\n"+
+                "\"lastName1\": \"Simons\",\n"+
+                "\"lastName2\": \"Soler\",\n"+
+                "\"phone\": \"9994490032\"\n"+
+                "}\n"+
+                "}\n"+
 
+                "]\n"+
+                "}\n";
+        //=======================================================================================================================
         JSONObject lista = new JSONObject(result);
         int numResul = lista.getJSONObject("meta").getInt("resultsFound");
         System.out.println(numResul);
         JSONArray arregloEnvios = lista.getJSONArray("data");
-
         for(int i=0; i<numResul; i++){
             JSONObject aux =  arregloEnvios.getJSONObject(i);
             int id  = aux.getInt("id");
